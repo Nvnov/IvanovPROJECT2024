@@ -26,7 +26,7 @@ clock = pygame.time.Clock()
 
 
 
-font_path ='fonts/8-bit Arcade In.ttf'
+font_path ='FONTS/8-bit Arcade In.ttf'
 font_large = pygame.font.Font(font_path, 100)
 font_small = pygame.font.Font(font_path, 50)
 
@@ -57,7 +57,7 @@ enemy_dead_image = pygame.transform.scale(enemy_dead_image, (200, 50))
 enemy_image = pygame.image.load('images/enemy/ENEMY RIGHT.png').convert_alpha()
 enemy_image = pygame.transform.scale(enemy_image, (200, 100))
 
-player_dead_image = pygame.image.load('images/Player/DEAD Player 2.png').convert_alpha()
+player_dead_image = pygame.image.load('images/Player/DEAD PLAYER 2.png').convert_alpha()
 player_dead_image = pygame.transform.scale(player_dead_image, (180, 222))
 
 #Игрок

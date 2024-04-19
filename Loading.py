@@ -16,7 +16,7 @@ CLOCK = pygame.time.Clock()
 class LoadingScreen:
     def __init__(self, screen):
         self.screen = screen
-        self.loading_bg = pygame.image.load("images/loading Bar Background.png")
+        self.loading_bg = pygame.image.load("images/Loading Bar Background.png")
         self.loading_bg_rect = self.loading_bg.get_rect(center=(W // 2, H // 2))
 
         self.loading_bar = pygame.image.load("images/Loading Bar.png")
