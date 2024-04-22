@@ -3,7 +3,7 @@ from Entity import Entity
 from Player import Player
 from Enemy import Enemy
 from Loading import LoadingScreen
-
+from buttons import Buttons
 pygame.init()
 
 
@@ -37,7 +37,8 @@ retry_rect = retry_text.get_rect()
 retry_rect.midtop = (W // 2, H // 2)
 
 
-
+MenuBG = pygame.image.load('images/MENUBG.png').convert_alpha()
+GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
 #Вступительный фон
 OpenBG = pygame.image.load('images/Вступительный фон 1.png')
 OpenBG = pygame.transform.scale(OpenBG, (1280, 720)).convert_alpha()
@@ -116,7 +117,7 @@ def lvl2():
 
         screen.fill((92, 148, 252))
         bg_sound1.play()
-        screen.blit(OpenBG, (0, H - GROUND_H))
+        screen.blit(MenuBG, (0, H - GROUND_H))
 
 
 
@@ -149,7 +150,7 @@ def lvl3():
         score = 0
         clock.tick(FPS)
 
-        screen.fill(('Red'))
+        screen.blit(GameBG, (0, H - GROUND_H))
 
         screen.blit(ground_image, (0, H - GROUND_H))
         score_text = font_large.render(str(score), True, (255, 255, 255))
@@ -190,7 +191,7 @@ def lvl3():
 
 
 
-            score_rect.midtop = (W // 2, 5)
+            score_rect.midtop = (W // 2, 3)
 
         screen.blit(score_text, score_rect)
         pygame.display.flip()
