@@ -36,6 +36,16 @@ retry_text = font_small.render('---PRESS ANY KEY---', True, (255, 255, 255))
 retry_rect = retry_text.get_rect()
 retry_rect.midtop = (W // 2, H // 2)
 
+walk_right = [
+    pygame.image.load('images/Player test R/Right 1.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 2.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 3.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 4.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 5.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 6.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 7.png').convert_alpha(),
+    pygame.image.load('images/Player test R/Right 8.png').convert_alpha()
+]
 
 MenuBG = pygame.image.load('images/MENUBG.png').convert_alpha()
 GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
@@ -73,7 +83,7 @@ Player = Player()
 enemys = []
 INIT_DELAY = 2000
 spawn_delay = INIT_DELAY
-DECREASE_BASE = 1.01
+DECREASE_BASE = 1.50
 last_spawn_time = pygame.time.get_ticks()
 
 
