@@ -36,7 +36,7 @@ retry_text = font_small.render('---PRESS ANY KEY---', True, (255, 255, 255))
 retry_rect = retry_text.get_rect()
 retry_rect.midtop = (W // 2, H // 2)
 
-walk_right = [
+player_walk_right = [
     pygame.image.load('images/Player test R/Right 1.png').convert_alpha(),
     pygame.image.load('images/Player test R/Right 2.png').convert_alpha(),
     pygame.image.load('images/Player test R/Right 3.png').convert_alpha(),
@@ -45,6 +45,16 @@ walk_right = [
     pygame.image.load('images/Player test R/Right 6.png').convert_alpha(),
     pygame.image.load('images/Player test R/Right 7.png').convert_alpha(),
     pygame.image.load('images/Player test R/Right 8.png').convert_alpha()
+]
+player_walk_left = [
+    pygame.image.load('images/Player test L/Left 1.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 2.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 3.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 4.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 5.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 6.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 7.png').convert_alpha(),
+    pygame.image.load('images/Player test L/Left 8.png').convert_alpha()
 ]
 
 MenuBG = pygame.image.load('images/MENUBG.png').convert_alpha()
@@ -72,7 +82,7 @@ player_dead_image = pygame.image.load('images/Player/DEAD PLAYER 2.png').convert
 player_dead_image = pygame.transform.scale(player_dead_image, (180, 222))
 
 #Игрок
-player_image = pygame.image.load('images/Player/Player 2.png').convert_alpha()
+player_image = pygame.image.load('images/Player/Player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (180, 222))
 
 

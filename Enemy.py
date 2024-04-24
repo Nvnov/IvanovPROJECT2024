@@ -25,7 +25,7 @@ player_dead_image = pygame.image.load('images/Player/DEAD PLAYER 2.png').convert
 player_dead_image = pygame.transform.scale(player_dead_image, (180, 222))
 
 #Игрок
-player_image = pygame.image.load('images/Player/Player 2.png').convert_alpha()
+player_image = pygame.image.load('images/Player/Player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (180, 222))
 
 
