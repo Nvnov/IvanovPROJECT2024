@@ -36,26 +36,47 @@ retry_text = font_small.render('---PRESS ANY KEY---', True, (255, 255, 255))
 retry_rect = retry_text.get_rect()
 retry_rect.midtop = (W // 2, H // 2)
 
+player_jump = [
+    pygame.image.load('images/Player JUMP/Player JUMP 1.png').convert_alpha(),
+    pygame.image.load('images/Player JUMP/JUMP RIGHT.png').convert_alpha()
+    ]
+
+player_IDLE = [
+    pygame.image.load('images/Player IDLE/idle 1-1.png').convert_alpha(),
+    pygame.image.load('images/Player IDLE/idle 1-2.png').convert_alpha(),
+    pygame.image.load('images/Player IDLE/idle 1-3.png').convert_alpha(),
+    pygame.image.load('images/Player IDLE/idle 1-4.png').convert_alpha()
+]
+
+player_win = [
+    pygame.image.load('images/Player WIN/WIN IDLE 1.png').convert_alpha(),
+    pygame.image.load('images/Player WIN/WIN IDLE 2.png').convert_alpha(),
+    pygame.image.load('images/Player WIN/WIN IDLE 3.png').convert_alpha()
+]
+
 player_walk_right = [
-    pygame.image.load('images/Player test R/Right 1.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 2.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 3.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 4.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 5.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 6.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 7.png').convert_alpha(),
-    pygame.image.load('images/Player test R/Right 8.png').convert_alpha()
+    pygame.image.load('images/Player Walk Right/Right 1.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 2.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 3.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 4.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 5.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 6.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 7.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Right/Right 8.png').convert_alpha()
 ]
+
 player_walk_left = [
-    pygame.image.load('images/Player test L/Left 1.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 2.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 3.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 4.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 5.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 6.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 7.png').convert_alpha(),
-    pygame.image.load('images/Player test L/Left 8.png').convert_alpha()
+    pygame.image.load('images/Player Walk Left/Left 1.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 2.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 3.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 4.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 5.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 6.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 7.png').convert_alpha(),
+    pygame.image.load('images/Player Walk Left/Left 8.png').convert_alpha()
 ]
+
+
 
 MenuBG = pygame.image.load('images/MENUBG.png').convert_alpha()
 GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
@@ -78,7 +99,7 @@ enemy_dead_image = pygame.transform.scale(enemy_dead_image, (200, 50))
 enemy_image = pygame.image.load('images/enemy/ENEMY RIGHT.png').convert_alpha()
 enemy_image = pygame.transform.scale(enemy_image, (200, 100))
 
-player_dead_image = pygame.image.load('images/Player/DEAD PLAYER 2.png').convert_alpha()
+player_dead_image = pygame.image.load('images/Player DEAD/Player DEAD.png').convert_alpha()
 player_dead_image = pygame.transform.scale(player_dead_image, (180, 222))
 
 #Игрок
@@ -104,7 +125,7 @@ def switch_scene(lvl):
 
 
 
-def lvl1():
+def LoadScreen():
 
     running = True
     while running:
@@ -113,7 +134,7 @@ def lvl1():
                 running = False
                 switch_scene(None)
             elif e.type == pygame.KEYDOWN and e.key == pygame.K_BACKSPACE:
-                switch_scene(lvl2)
+                switch_scene(MainMenu)
                 running = False
         loading_screen = LoadingScreen(screen)
 
@@ -122,7 +143,7 @@ def lvl1():
         loading_screen.draw()
         pygame.display.flip()
 
-def lvl2():
+def MainMenu():
 
     running = True
     while running:
@@ -131,7 +152,7 @@ def lvl2():
                 running = False
                 switch_scene(None)
             elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                switch_scene(lvl3)
+                switch_scene(GameLVL1)
 
                 running = False
 
@@ -146,7 +167,7 @@ def lvl2():
         pygame.display.flip()
 
 
-def lvl3():
+def GameLVL1():
 
     global last_spawn_time, spawn_delay
     running = True
@@ -156,7 +177,7 @@ def lvl3():
                 running = False
                 switch_scene(None)
             elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                switch_scene(lvl1)
+                switch_scene(MainMenu)
                 running = False
             elif e.type == pygame.KEYDOWN:
                 if Player.is_out:
@@ -221,7 +242,7 @@ def lvl3():
 
 
 
-switch_scene(lvl1)
+switch_scene(LoadScreen)
 while current_scene is not None:
     current_scene()
 
