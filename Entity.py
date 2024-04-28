@@ -5,9 +5,9 @@ H = 720
 screen = pygame.display.set_mode((W, H))
 
 #Вступительный фон
-OpenBG = pygame.image.load('images/Вступительный фон 1.png').convert_alpha()
-OpenBG = pygame.transform.scale(OpenBG, (0, 0))
-OpenBG_x = 0
+StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
+StartMenu = pygame.transform.scale(StartMenu, (0, 0))
+StartMenu_x = 0
 
 ground_image = pygame.image.load('images/Ground.png').convert_alpha()
 ground_image = pygame.transform.scale(ground_image, (300, 165))

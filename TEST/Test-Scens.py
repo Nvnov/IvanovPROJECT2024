@@ -7,7 +7,7 @@ pygame.init()
 
 
 screen = pygame.display.set_mode((1280, 720))
-Start1 = pygame.image.load('../images/Вступительный фон 1.png')
+Start1 = pygame.image.load('../images/STARTMENU.png')
 Start1_x = 0
 Start1_y = 0
 Player = Player(screen)

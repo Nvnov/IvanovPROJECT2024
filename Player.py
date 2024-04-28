@@ -7,6 +7,9 @@ screen = pygame.display.set_mode((W, H))
 
 ground_image = pygame.image.load('images/Ground.png')
 GROUND_H = ground_image.get_height()
+StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
+StartMenu = pygame.transform.scale(StartMenu, (0, 0))
+StartMenu_x = 0
 
 enemy_dead_image = pygame.image.load('images/enemy/DEAD ENEMY RIGHT.png').convert_alpha()
 enemy_dead_image = pygame.transform.scale(enemy_dead_image, (200, 50))
@@ -20,7 +23,7 @@ enemy_image = pygame.image.load('images/enemy/ENEMY RIGHT.png').convert_alpha()
 enemy_image = pygame.transform.scale(enemy_image, (200, 100))
 
 player_jump = [
-    pygame.image.load('images/Player JUMP/Player JUMP 1.png').convert_alpha(),
+    pygame.image.load('images/Player JUMP/JUMP LEFT.png').convert_alpha(),
     pygame.image.load('images/Player JUMP/JUMP RIGHT.png').convert_alpha()
     ]
 player_idle = [
@@ -92,5 +95,9 @@ class Player(Entity):
         self.rect.midbottom = (W // 2, H - GROUND_H)
 
     def jump(self):
+        self.y_speed = self.jump_speed
+
+
+    def killing(self):
         self.y_speed = self.jump_speed
 

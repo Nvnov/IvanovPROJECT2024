@@ -37,7 +37,7 @@ retry_rect = retry_text.get_rect()
 retry_rect.midtop = (W // 2, H // 2)
 
 player_jump = [
-    pygame.image.load('images/Player JUMP/Player JUMP 1.png').convert_alpha(),
+    pygame.image.load('images/Player JUMP/JUMP LEFT.png').convert_alpha(),
     pygame.image.load('images/Player JUMP/JUMP RIGHT.png').convert_alpha()
     ]
 
@@ -78,12 +78,14 @@ player_walk_left = [
 
 
 
-MenuBG = pygame.image.load('images/MENUBG.png').convert_alpha()
+MenuBG = pygame.image.load('images/MENU.png').convert_alpha()
 GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
 #Вступительный фон
-OpenBG = pygame.image.load('images/Вступительный фон 1.png')
-OpenBG = pygame.transform.scale(OpenBG, (1280, 720)).convert_alpha()
-OpenBG_x = 0
+StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
+StartMenu = pygame.transform.scale(StartMenu, (0, 0))
+StartMenu_x = 0
+
+
 #Земля
 ground_image = pygame.image.load('images/Ground.png')
 GROUND_H = ground_image.get_height()
@@ -133,7 +135,7 @@ def LoadScreen():
             if e.type == pygame.QUIT:
                 running = False
                 switch_scene(None)
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_BACKSPACE:
+            elif e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 switch_scene(MainMenu)
                 running = False
         loading_screen = LoadingScreen(screen)
@@ -143,7 +145,7 @@ def LoadScreen():
         loading_screen.draw()
         pygame.display.flip()
 
-def MainMenu():
+#def StartMenu():
 
     running = True
     while running:
@@ -151,21 +153,47 @@ def MainMenu():
             if e.type == pygame.QUIT:
                 running = False
                 switch_scene(None)
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                switch_scene(GameLVL1)
+            elif e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                switch_scene(MainMenu)
 
                 running = False
 
-        screen.fill((92, 148, 252))
-        bg_sound1.play()
-        screen.blit(MenuBG, (0, H - GROUND_H))
-
-
-
-
+        screen.blit(StartMenu, (0, H - GROUND_H))
 
         pygame.display.flip()
 
+def MainMenu():
+
+    start_button = Buttons(W/2-(252/2), 150, 252, 74, "Start", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    settings_button = Buttons(W/2-(252/2), 300, 252, 74, "Settings", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    exit_button = Buttons(W/2-(252 / 2), 450, 252, 74, "Exit", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+
+    running = True
+    while running:
+        screen.blit(StartMenu, (0, H - GROUND_H))
+
+        font = pygame.font.SysFont("FONTS/8-bit Arcade In.ttf", 50)
+        text_surface = font.render("Gorilla: The Legacy of the Berserker", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(W/2,100))
+        screen.blit(text_surface, text_rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            for btn in [start_button, settings_button, exit_button]:
+                btn.handle_event(event)
+
+        for btn in [start_button, settings_button, exit_button]:
+            btn.check_hovered(pygame.mouse.get_pos())
+            btn.draw(screen)
+
+        pygame.display.flip()
+
+def Settings_menu():
+    pass
 
 def GameLVL1():
 
@@ -181,7 +209,7 @@ def GameLVL1():
                 running = False
             elif e.type == pygame.KEYDOWN:
                 if Player.is_out:
-                    score = 0
+
                     spawn_delay = INIT_DELAY
                     lst_spawn_time = pygame.time.get_ticks()
                     Player.respawn()

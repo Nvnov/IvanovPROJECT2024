@@ -8,26 +8,27 @@ class Buttons:
         self.text = text
 
         self.font = font
-        self.color = color
+        self.color = "White"
 
-        self.image = pygame.image.load(image_path)
+        self.image = pygame.image.load("images/Buttons/Button.png")
         self.image = pygame.transform.scale(self.image, (w, h))
         self.hover_image = self.image
         if hover_image_path:
-            self.hover_image = pygame.image.load(hover_image_path)
+            self.hover_image = pygame.image.load("images/Buttons/ButtonHover.png")
             self.hover_image = pygame.transform.scale(self.hover_image, (w, h))
         self.rect = self.image.get_rect(topleft=(x, y))
-        self.sound = None
+        self.sound = "sounds/click.mp3"
         if sound_path:
             self.sound = pygame.mixer.Sound(sound_path)
-        self.is_hovered = False
+        else:
+            self.sound = pygame.mixer.Sound("sounds/click.mp3")
 
     def draw(self, screen):
         current_image = self.hover_image if self.is_hovered else self.image
         screen.blit(current_image, self.rect.topleft)
 
-        font = pygame.font.Font((None, 36))
-        text_surface = font.render(self.text, True, (255,255,255))
+        font = pygame.font.Font("FONTS/8-bit Arcade In.ttf", 36)
+        text_surface = font.render(self.text, True, self.color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 

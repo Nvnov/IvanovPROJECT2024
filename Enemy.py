@@ -9,7 +9,9 @@ screen = pygame.display.set_mode((W, H))
 
 ground_image = pygame.image.load('images/Ground.png')
 GROUND_H = ground_image.get_height()
-
+StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
+StartMenu = pygame.transform.scale(StartMenu, (0, 0))
+StartMenu_x = 0
 enemy_dead_image = pygame.image.load('images/enemy/DEAD ENEMY RIGHT.png').convert_alpha()
 enemy_dead_image = pygame.transform.scale(enemy_dead_image, (200, 50))
 
