@@ -26,9 +26,9 @@ clock = pygame.time.Clock()
 
 
 
-font_path ='FONTS/8-bit Arcade In.ttf'
-font_large = pygame.font.Font(font_path, 100)
-font_small = pygame.font.Font(font_path, 50)
+font ='FONTS/8-bit Arcade In.ttf'
+font_large = pygame.font.Font(font, 100)
+font_small = pygame.font.Font(font, 50)
 
 
 game_over = False
@@ -79,6 +79,7 @@ player_walk_left = [
 
 
 MenuBG = pygame.image.load('images/MENU.png').convert_alpha()
+SettingsBG = pygame.image.load('images/SETTINGS.png').convert_alpha()
 GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
 #Вступительный фон
 StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
@@ -115,6 +116,7 @@ Player = Player()
 
 enemys = []
 INIT_DELAY = 2000
+MIN_SPAWN_DELAY = 200
 spawn_delay = INIT_DELAY
 DECREASE_BASE = 1.50
 last_spawn_time = pygame.time.get_ticks()
@@ -136,7 +138,7 @@ def LoadScreen():
                 running = False
                 switch_scene(None)
             elif e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
-                switch_scene(MainMenu)
+                MainMenu()
                 running = False
         loading_screen = LoadingScreen(screen)
 
@@ -155,26 +157,28 @@ def LoadScreen():
                 switch_scene(None)
             elif e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 switch_scene(MainMenu)
-
                 running = False
-
-        screen.blit(StartMenu, (0, H - GROUND_H))
 
         pygame.display.flip()
 
 def MainMenu():
 
-    start_button = Buttons(W/2-(252/2), 150, 252, 74, "Start", "Button.png", "ButtonHover.png", "sounds/click.mp3")
-    settings_button = Buttons(W/2-(252/2), 300, 252, 74, "Settings", "Button.png", "ButtonHover.png", "sounds/click.mp3")
-    exit_button = Buttons(W/2-(252 / 2), 450, 252, 74, "Exit", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    start_button = Buttons(W/5-(252/2), 150, 252, 74, "Start", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    settings_button = Buttons(W/5-(252/2), 300, 252, 74, "Settings", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    exit_button = Buttons(W/5-(252 / 2), 450, 252, 74, "Exit", "Button.png", "ButtonHover.png", "sounds/click.mp3")
 
     running = True
     while running:
-        screen.blit(StartMenu, (0, H - GROUND_H))
+        screen.fill((0, 0, 0))
+        screen.blit(MenuBG, (0, 0))
+        font = pygame.font.Font("FONTS/8-bit Arcade In.ttf", 70)
 
-        font = pygame.font.SysFont("FONTS/8-bit Arcade In.ttf", 50)
-        text_surface = font.render("Gorilla: The Legacy of the Berserker", True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(W/2,100))
+        text_surface = font.render("|Gorilla The Legacy of the Berserker|", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(W / 2, 47))
+        screen.blit(text_surface, text_rect)
+
+        text_surface = font.render("|Nvnov|", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(W / 2, 660))
         screen.blit(text_surface, text_rect)
 
         for event in pygame.event.get():
@@ -182,6 +186,21 @@ def MainMenu():
                 running = False
                 pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.USEREVENT and event.button == start_button:
+                print("GO!")
+                GameLVL1()
+
+            if event.type == pygame.USEREVENT and event.button == settings_button:
+                print("Settings!")
+                Settings_menu()
+
+            if event.type == pygame.USEREVENT and event.button == exit_button:
+                print("Bye!")
+                pygame.quit()
+                sys.exit()
+
+
 
             for btn in [start_button, settings_button, exit_button]:
                 btn.handle_event(event)
@@ -193,85 +212,125 @@ def MainMenu():
         pygame.display.flip()
 
 def Settings_menu():
-    pass
+
+    audio_button = Buttons(W / 5 - (252 / 2), 150, 252, 74, "Audio", "Button.png", "ButtonHover.png","sounds/click.mp3")
+    video_button = Buttons(W / 5 - (252 / 2), 300, 252, 74, "Video", "Button.png", "ButtonHover.png","sounds/click.mp3")
+    back_button = Buttons(W / 5 - (252 / 2), 450, 252, 74, "Back", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        screen.blit(SettingsBG, (0, 0))
+
+        font = pygame.font.Font("FONTS/8-bit Arcade In.ttf", 70)
+        text_surface = font.render("|Settings|", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(W / 2, 47))
+        screen.blit(text_surface, text_rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
+            if event.type == pygame.USEREVENT and event.button == back_button:
+                print("Back!")
+                MainMenu()
+
+
+            for btn in [audio_button, video_button, back_button]:
+                btn.handle_event(event)
+
+        for btn in [audio_button, video_button, back_button]:
+            btn.check_hovered(pygame.mouse.get_pos())
+            btn.draw(screen)
+
+        pygame.display.flip()
 
 def GameLVL1():
-
     global last_spawn_time, spawn_delay
+    score = 0
+    last_spawn_time = pygame.time.get_ticks()
+    spawn_delay = INIT_DELAY
+    restart_button = Buttons(W / 5 - (252 / 2), 150, 252, 74, "Restart", "Button.png", "ButtonHover.png","sounds/click.mp3")
+
     running = True
     while running:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
-                running = False
-                switch_scene(None)
-            elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                switch_scene(MainMenu)
-                running = False
+                return False
             elif e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_ESCAPE:
+                    MainMenu()
+                    return False
                 if Player.is_out:
-
+                    score = 0
+                    last_spawn_time = pygame.time.get_ticks()
                     spawn_delay = INIT_DELAY
-                    lst_spawn_time = pygame.time.get_ticks()
                     Player.respawn()
                     enemys.clear()
-        bg_sound1.stop()
-        bg_sound2.play()
-        score = 0
+
+
+
+
+        if not Player.is_out:
+            bg_sound1.stop()
+            bg_sound2.play()
+
         clock.tick(FPS)
-
         screen.blit(GameBG, (0, H - GROUND_H))
-
         screen.blit(ground_image, (0, H - GROUND_H))
-        score_text = font_large.render(str(score), True, (255, 255, 255))
-        score_rect = score_text.get_rect()
 
         if Player.is_out:
+            score_rect = retry_text.get_rect()
             score_rect.midbottom = (W // 2, H // 2)
+            screen.blit(retry_text, score_rect)
 
-            screen.blit(retry_text, retry_rect)
+
+
+
+
         else:
             Player.update()
             Player.draw(screen)
-
             now = pygame.time.get_ticks()
-            elapsed = now - last_spawn_time
-            if elapsed > spawn_delay:
+            if now - last_spawn_time > spawn_delay:
                 last_spawn_time = now
                 enemys.append(Enemy())
 
-            for enemy in list(enemys):
+            for enemy in enemys[:]:
                 if enemy.is_out:
                     enemys.remove(enemy)
                 else:
                     enemy.update()
                     enemy.draw(screen)
+                    if Player.rect.colliderect(enemy.rect):
+                        if not Player.is_dead and not enemy.is_dead:
+                            if Player.rect.bottom - Player.y_speed < enemy.rect.top:
+                                enemy.kill(enemy_dead_image)
+                                Player.jump()
+                                score += 1
+                                spawn_delay = max(INIT_DELAY / (DECREASE_BASE ** score), MIN_SPAWN_DELAY)
+                            else:
+                                Player.kill(player_dead_image)
+                                Player.is_out = True
 
-
-                if not Player.is_dead and not enemy.is_dead and Player.rect.colliderect(enemy.rect):
-                   if Player.rect.bottom - Player.y_speed < enemy.rect.top:
-                       enemy.kill(enemy_dead_image)
-                       Player.jump()
-                       score += 1
-                       spawn_delay = INIT_DELAY / (DECREASE_BASE ** score)
-                   else:
-                       Player.kill(player_dead_image)
-
-
-
-
-
-            score_rect.midtop = (W // 2, 3)
-
+        score_text = font_large.render(str(score), True, (255, 255, 255))
+        score_rect = score_text.get_rect()
+        score_rect.midtop = (W // 2, 3)
         screen.blit(score_text, score_rect)
         pygame.display.flip()
 
+    switch_scene(LoadScreen)
 
 
 
-
-
-switch_scene(LoadScreen)
+current_scene = LoadScreen()
 while current_scene is not None:
-    current_scene()
+    current_scene = current_scene()
 
-quit()
+pygame.quit()

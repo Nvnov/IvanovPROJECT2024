@@ -1,13 +1,14 @@
 import pygame
 class Buttons:
     def __init__(self, x ,y ,w, h,  text, font, color, image_path, hover_image_path=None, sound_path=None):
+        self.is_hovered = None
         self.x = x
         self.y = y
         self.w = w
         self.h = h
         self.text = text
 
-        self.font = font
+        self.font = 'FONTS/8-bit Arcade In.ttf'
         self.color = "White"
 
         self.image = pygame.image.load("images/Buttons/Button.png")
