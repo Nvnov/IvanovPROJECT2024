@@ -9,6 +9,9 @@ StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
 StartMenu = pygame.transform.scale(StartMenu, (0, 0))
 StartMenu_x = 0
 
+
+
+
 ground_image = pygame.image.load('images/Ground.png').convert_alpha()
 ground_image = pygame.transform.scale(ground_image, (300, 165))
 GROUND_H = ground_image.get_height()
@@ -32,6 +35,9 @@ player_image = pygame.image.load('images/Player/Player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (180, 222))
 
 class Entity:
+
+
+
     def __init__(self, image):
         self.image = image
         self.rect = self.image.get_rect()

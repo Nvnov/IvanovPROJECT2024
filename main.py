@@ -9,6 +9,7 @@ pygame.init()
 
 W = 1280
 H = 720
+FPS = 60
 screen = pygame.display.set_mode((W, H), pygame.RESIZABLE)
 pygame.display.set_caption('Gorilla: The Legacy of the Berserker')
 icon = pygame.image.load('images/icon_gorilla.png').convert_alpha()
@@ -21,7 +22,8 @@ bg_sound1.set_volume(0.05)
 bg_sound2.set_volume(0.05)
 
 
-FPS = 60
+
+
 clock = pygame.time.Clock()
 
 
@@ -81,10 +83,10 @@ player_walk_left = [
 MenuBG = pygame.image.load('images/MENU.png').convert_alpha()
 SettingsBG = pygame.image.load('images/SETTINGS.png').convert_alpha()
 GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
-#Вступительный фон
+
 StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
-StartMenu = pygame.transform.scale(StartMenu, (0, 0))
-StartMenu_x = 0
+
+
 
 
 #Земля
@@ -146,11 +148,13 @@ def LoadScreen():
         loading_screen.update()
         loading_screen.draw()
         pygame.display.flip()
-
-#def StartMenu():
+def StartMenu():
 
     running = True
     while running:
+        screen.fill((0, 0, 0))
+        screen.blit(StartMenu, (0, 0))
+
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 running = False
@@ -189,10 +193,12 @@ def MainMenu():
 
             if event.type == pygame.USEREVENT and event.button == start_button:
                 print("GO!")
+                fade()
                 GameLVL1()
 
             if event.type == pygame.USEREVENT and event.button == settings_button:
                 print("Settings!")
+                fade()
                 Settings_menu()
 
             if event.type == pygame.USEREVENT and event.button == exit_button:
@@ -239,6 +245,7 @@ def Settings_menu():
 
             if event.type == pygame.USEREVENT and event.button == back_button:
                 print("Back!")
+                fade()
                 MainMenu()
 
 
@@ -328,6 +335,30 @@ def GameLVL1():
     switch_scene(LoadScreen)
 
 
+
+def fade():
+    running = True
+    fade_alpha = 0
+
+    while running:
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                return False
+
+        fade_surface = pygame.Surface((W, H))
+        fade_surface.fill((0, 0, 0))
+        fade_surface.set_alpha(fade_alpha)
+        screen.blit(fade_surface, (0, 0))
+
+        fade_alpha += 5
+        if fade_alpha >= 105:
+            fade_alpha = 255
+            running = False
+
+
+
+        pygame.display.flip()
+        clock.tick(FPS)
 
 current_scene = LoadScreen()
 while current_scene is not None:
