@@ -9,7 +9,7 @@ pygame.init()
 
 W = 1280
 H = 720
-FPS = 60
+
 screen = pygame.display.set_mode((W, H), pygame.RESIZABLE)
 pygame.display.set_caption('Gorilla: The Legacy of the Berserker')
 icon = pygame.image.load('images/icon_gorilla.png').convert_alpha()
@@ -20,12 +20,13 @@ bg_sound1 = pygame.mixer.Sound('sounds/Вступление.mp3')
 bg_sound2 = pygame.mixer.Sound('sounds/Фон звук.mp3')
 bg_sound1.set_volume(0.05)
 bg_sound2.set_volume(0.05)
-
+FPS = 60
 
 
 
 clock = pygame.time.Clock()
-
+mouse = pygame.image.load('images/MOUSE.png').convert_alpha()
+pygame.mouse.set_visible(False)
 
 
 font ='FONTS/8-bit Arcade In.ttf'
@@ -82,6 +83,7 @@ player_walk_left = [
 
 MenuBG = pygame.image.load('images/MENU.png').convert_alpha()
 SettingsBG = pygame.image.load('images/SETTINGS.png').convert_alpha()
+VideoBG = pygame.image.load('images/VIDEO.png').convert_alpha()
 GameBG = pygame.image.load('images/GameBG.png').convert_alpha()
 
 StartMenu = pygame.image.load('images/STARTMENU.png').convert_alpha()
@@ -167,14 +169,15 @@ def StartMenu():
 
 def MainMenu():
 
-    start_button = Buttons(W/5-(252/2), 150, 252, 74, "Start", "Button.png", "ButtonHover.png", "sounds/click.mp3")
-    settings_button = Buttons(W/5-(252/2), 300, 252, 74, "Settings", "Button.png", "ButtonHover.png", "sounds/click.mp3")
-    exit_button = Buttons(W/5-(252 / 2), 450, 252, 74, "Exit", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    start_button = Buttons(W/5-(252/2), 150, 252, 74, "Start", "Button.png", "ButtonHover.png", "click.mp3")
+    settings_button = Buttons(W/5-(252/2), 300, 252, 74, "Settings", "Button.png", "ButtonHover.png", "click.mp3")
+    exit_button = Buttons(W/5-(252 / 2), 450, 252, 74, "Exit", "Button.png", "ButtonHover.png", "click.mp3")
 
     running = True
     while running:
         screen.fill((0, 0, 0))
         screen.blit(MenuBG, (0, 0))
+        bg_sound1.play()
         font = pygame.font.Font("FONTS/8-bit Arcade In.ttf", 70)
 
         text_surface = font.render("|Gorilla The Legacy of the Berserker|", True, (255, 255, 255))
@@ -215,13 +218,17 @@ def MainMenu():
             btn.check_hovered(pygame.mouse.get_pos())
             btn.draw(screen)
 
+
+        x, y = pygame.mouse.get_pos()
+        screen.blit(mouse, (x, y))
+
         pygame.display.flip()
 
 def Settings_menu():
 
-    audio_button = Buttons(W / 5 - (252 / 2), 150, 252, 74, "Audio", "Button.png", "ButtonHover.png","sounds/click.mp3")
-    video_button = Buttons(W / 5 - (252 / 2), 300, 252, 74, "Video", "Button.png", "ButtonHover.png","sounds/click.mp3")
-    back_button = Buttons(W / 5 - (252 / 2), 450, 252, 74, "Back", "Button.png", "ButtonHover.png", "sounds/click.mp3")
+    audio_button = Buttons(W / 5 - (252 / 2), 150, 252, 74, "Audio", "Button.png", "ButtonHover.png","click.mp3")
+    video_button = Buttons(W / 5 - (252 / 2), 300, 252, 74, "Video", "Button.png", "ButtonHover.png","click.mp3")
+    back_button = Buttons(W / 5 - (252 / 2), 450, 252, 74, "Back", "Button.png", "ButtonHover.png", "click.mp3")
 
     running = True
     while running:
@@ -248,6 +255,11 @@ def Settings_menu():
                 fade()
                 MainMenu()
 
+            if event.type == pygame.USEREVENT and event.button == video_button:
+                print("Video!")
+                fade()
+                Video_menu()
+
 
             for btn in [audio_button, video_button, back_button]:
                 btn.handle_event(event)
@@ -256,6 +268,55 @@ def Settings_menu():
             btn.check_hovered(pygame.mouse.get_pos())
             btn.draw(screen)
 
+
+        x, y = pygame.mouse.get_pos()
+        screen.blit(mouse, (x, y))
+        pygame.display.flip()
+
+
+def Video_menu():
+
+    fullscreen_button = Buttons(W / 5 - (252 / 2), 150, 252, 74, "Full screen", "Button.png", "ButtonHover.png","click.mp3")
+    screen1_button = Buttons(W / 5 - (252 / 2), 300, 252, 74, "640x480", "Button.png", "ButtonHover.png","click.mp3")
+    screen2_button = Buttons(W / 5 - (252 / 2), 450, 252, 74, "1280x720", "Button.png", "ButtonHover.png", "click.mp3")
+    back_button = Buttons(W / 2 - (152 / 2), 300, 400, 74, "Back", "Button.png", "ButtonHover.png", "click.mp3")
+
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        screen.blit(VideoBG, (0, 0))
+
+        font = pygame.font.Font("FONTS/8-bit Arcade In.ttf", 70)
+        text_surface = font.render("|Video|", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(W / 2, 47))
+        screen.blit(text_surface, text_rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
+            if event.type == pygame.USEREVENT and event.button == back_button:
+                print("Back!")
+                fade()
+                MainMenu()
+
+
+            for btn in [fullscreen_button, screen1_button,screen2_button, back_button]:
+                btn.handle_event(event)
+
+        for btn in [fullscreen_button, screen1_button,screen2_button, back_button]:
+            btn.check_hovered(pygame.mouse.get_pos())
+            btn.draw(screen)
+
+
+        x, y = pygame.mouse.get_pos()
+        screen.blit(mouse, (x, y))
         pygame.display.flip()
 
 def GameLVL1():
@@ -301,6 +362,7 @@ def GameLVL1():
 
 
 
+
         else:
             Player.update()
             Player.draw(screen)
@@ -332,7 +394,7 @@ def GameLVL1():
         screen.blit(score_text, score_rect)
         pygame.display.flip()
 
-    switch_scene(LoadScreen)
+
 
 
 
