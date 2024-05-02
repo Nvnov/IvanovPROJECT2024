@@ -275,7 +275,7 @@ def Settings_menu():
 
 
 def Video_menu():
-
+    global W, H, screen
     fullscreen_button = Buttons(W / 5 - (252 / 2), 150, 252, 74, "Full screen", "Button.png", "ButtonHover.png","click.mp3")
     screen1_button = Buttons(W / 5 - (252 / 2), 300, 252, 74, "640x480", "Button.png", "ButtonHover.png","click.mp3")
     screen2_button = Buttons(W / 5 - (252 / 2), 450, 252, 74, "1280x720", "Button.png", "ButtonHover.png", "click.mp3")
@@ -306,6 +306,24 @@ def Video_menu():
                 fade()
                 MainMenu()
 
+            if event.type == pygame.USEREVENT and event.button == fullscreen_button:
+                print("1920x1080")
+                W, H = 1920, 1080
+                screen = pygame.display.set_mode((W, H), pygame.FULLSCREEN)
+                fade()
+
+
+            if event.type == pygame.USEREVENT and event.button == screen1_button:
+                print("640x480")
+                W, H = 640, 480
+                screen = pygame.display.set_mode((W, H))
+                fade()
+
+            if event.type == pygame.USEREVENT and event.button == screen2_button:
+                print("1280x720")
+                W, H = 1280, 720
+                screen = pygame.display.set_mode((W, H))
+                fade()
 
             for btn in [fullscreen_button, screen1_button,screen2_button, back_button]:
                 btn.handle_event(event)
@@ -421,6 +439,14 @@ def fade():
 
         pygame.display.flip()
         clock.tick(FPS)
+
+
+
+def change_video_mode(w, h, fullscreen = None ):
+    global W,H, screen
+
+    W, H = w, h
+    screen = pygame.display.set_mode((W, H), fullscreen)
 
 current_scene = LoadScreen()
 while current_scene is not None:
