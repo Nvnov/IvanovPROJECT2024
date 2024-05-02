@@ -26,6 +26,7 @@ class LoadingScreen:
         self.loading_bar_width = 8
         self.work = WORK
 
+
         # Запуск потока для выполнения работы
         threading.Thread(target=self.do_work).start()
 
